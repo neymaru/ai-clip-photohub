@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gallery Page</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <!-- <a href="/"><img class="back_logo"src="/static/images/logo/back.png" alt="뒤로가기"></a> -->
+    </header>
+    <main>
+        <div class="logo">
+            <a href="/"><img src="/static/images/logo/logo.png" alt="로고"></a>
+        </div>
+        <div class="content">
+            <div class="section-button">              
+                <form action="/gallery/seperate" method="get">
+                    <button type="submit">AI 분석</button>
+                </form>
+            </div>
+            <div class="section-gallery">
+                <form action="/gallery/all" method="get">
+                    <button type="submit"></button>
+                    <div class="gallery-text">
+                        <p>사진</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

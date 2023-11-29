@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gallery Page</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+</head>
+<body>
+    <header>
+        
+    </header>
+    <main>
+        <div class="gallery_header">
+            <a href="/"><img src="/static/images/logo/logo.png" alt="로고"></a>
+            <span>전체 사진</span>
+        </div>
+
+        <div class="gallery_box">
+        {% for image in images %}
+            <div class="single_image">
+                <img src="{{ url_for('static', path='images/upload/' + image) }}" alt="{{ image }}">
+            </div>
+        {% endfor %}
+        </div>
+    </main>
+</body>
+</html>
+
+

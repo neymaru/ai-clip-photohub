@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gallery Page</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+</head>
+<body>
+    <header>
+        
+    </header>
+    <main>
+        <div class="logo">
+            <a href="/"><img src="/static/images/logo/logo.png" alt="로고"></a>
+        </div>
+        <div class="content">
+            <div class="section-gallery">
+                {%for table in table_names%}
+                <form action="/gallery/detail" method="get">
+                    <input type="hidden" name="category" value="{{ table }}">
+                    <button type="submit"></button>
+                    <div class="gallery-text">
+                        <p>{{table}}</p>
+                    </div>
+                </form>
+                {%endfor%}
+            </div>
+        </div>
+    </main>
+</body>
+</html>

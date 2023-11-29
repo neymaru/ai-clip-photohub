@@ -1,0 +1,185 @@
+
+*{
+    
+    padding: 0;
+    margin: 0 auto;
+    
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+
+/* header */
+
+header{
+    background: #98B1F6;
+    height: 70px;
+}
+
+.logo{
+    text-align: center;
+    padding-block: 15px;
+}
+
+.back_logo {
+    margin-left: 20px;
+    background-color: white;
+    width: 100px;
+}
+
+.gallery_header{
+    text-align: left;
+    padding-block: 15px;
+}
+
+.gallery_header img{
+    width: 10%;
+}
+
+.gallery_header span{
+    text-align: center;
+    font-size: xx-large;
+    margin-left: 650px;
+    vertical-align: top;
+}
+
+.gallery_box {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    width: 90%;
+    margin-top: 50px;
+}
+
+.single_image {
+    width: 200px;
+    height: 150px;
+    margin: 10px; 
+    overflow: hidden; 
+    transition: transform 0.3s ease;
+}
+
+.single_image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+}
+
+.single_image:hover {
+    transform: scale(1.4); 
+}
+
+/* main */
+
+main{
+    width: 100%;
+    height: 90vh;
+    position: relative;
+}
+
+.con_logo{
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.content{
+    height: 100%;
+    position: absolute;
+    top: calc(40% + 50px); /* 50px below the logo */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; /* Set a reasonable width for the content area */
+    max-height: calc(100% - (40% + 50px)); /* Maximum height to prevent invasion of logo area */
+}
+.content input{
+    width: 100%; /* Make the input width 100% of the container */
+    height: 50px;
+    border-radius: 10px;
+    padding-left: 10px;
+    box-sizing: border-box;
+}
+
+.content #upload-btn{
+    position: absolute;
+    right: 20px;
+    top: -40px; /* Position above the dropzone box */
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    background: #5F83B9;
+    border: none;
+    color: white;
+    font-family: 'Inika', serif;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.section-button {
+    width: 100%;
+    height: 80px;
+}
+
+.section-button button {
+    position: absolute;
+    right: 20px;
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    background: #5F83B9;
+    border: none;
+    color: white;
+    font-family: 'Inika', serif;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.section-button button {
+    position: absolute;
+    right: 100px;
+}
+
+.section-gallery {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    padding-top: 50px;
+}
+
+.section-gallery button {
+    width: 200px;
+    height: 200px;
+    border-style: none;
+    border-radius: 20px;
+    cursor: pointer;
+
+}
+
+.gallery-text p {
+    margin: 10px 20px 0 20px;
+    font-size:x-large
+}
+
+.dropzone {
+    background: white;
+    border-radius: 5px;
+    border: 2px dashed rgb(0, 135, 247);
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px; /* Adjust the margin-top to create space between content and dropzone */
+    overflow-y: auto; 
+}
+
+.dz-remove{
+    background: red;
+    width: 50px;
+    border-radius: 25px;
+    color: white;
+    margin-top: 10px;
+}
