@@ -1,4 +1,3 @@
-import os
 from typing import List
 from click import File
 
@@ -26,65 +25,35 @@ processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
 app = FastAPI()
 
 # -------------- DATEBASE --------------
-# SQLAlchemy setup
 DATABASE_URL = os.getenv("DATABASE_URL")
 engine = create_engine(DATABASE_URL)
 metadata = MetaData()
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
+def create_table(metadata, table_name):
+    return Table(
+        table_name, metadata,
+        Column('id', Integer, primary_key=True),
+        Column('filename', String(255), nullable=False),
+        extend_existing=True  # Allow redefinition
+    )
 
-# Define the images table
-images = Table(
-    'images', metadata,
-    Column('id', Integer, primary_key=True),
-    Column('filename', String(255), nullable=False)
-)
-
-animal = Table(
-    'animal', metadata,
-    Column('id', Integer, primary_key=True),
-    Column('filename', String(255), nullable=False)
-)
-
-etc = Table(
-    'etc', metadata,
-    Column('id', Integer, primary_key=True),
-    Column('filename', String(255), nullable=False)
-)
-
-food = Table(
-    'food', metadata,
-    Column('id', Integer, primary_key=True),
-    Column('filename', String(255), nullable=False)
-)
-
-human = Table(
-    'human', metadata,
-    Column('id', Integer, primary_key=True),
-    Column('filename', String(255), nullable=False)
-)
-
-nature = Table(
-    'nature', metadata,
-    Column('id', Integer, primary_key=True),
-    Column('filename', String(255), nullable=False)
-)
-
-place = Table(
-    'place', metadata,
-    Column('id', Integer, primary_key=True),
-    Column('filename', String(255), nullable=False)
-)
+images = create_table(metadata, 'images')
+animal = create_table(metadata, 'animal')
+etc = create_table(metadata, 'etc')
+food = create_table(metadata, 'food')
+human = create_table(metadata, 'human')
+nature = create_table(metadata, 'nature')
+place = create_table(metadata, 'place')
 
 metadata.create_all(engine)
+
+# ----------------------------------------
 
 images_folder = "static/images/upload"
 if not os.path.exists(images_folder):
     os.makedirs(images_folder)
-
-# ----------------------------------------
-
 
 # Mount the static folder to serve images
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -232,22 +201,6 @@ def get_table_names():
 async def read_main(request: Request):
     return templates.TemplateResponse("main.html", {"request": request})
 
-# @app.post("/upload")
-# async def create_upload_files(request: Request, files: list[UploadFile] = File(...)):
-#     print('업로드 요청')
-#     for file in files:
-#         file_path = f"static/images/{file.filename}"
-#         with open(file_path, "wb") as file_object:
-#             file_object.write(file.file.read())
-
-#      # Get the count of files in the static/images folder
-#     images_folder = "static/images"
-#     file_count = len([f for f in os.listdir(images_folder) if os.path.isfile(os.path.join(images_folder, f))])
-
-#     # Prepare context with the file count
-#     context = {"request": request, "message": "Files uploaded successfully", "images_count": file_count}
-#     return templates.TemplateResponse("gallery_main.html", context)
-
 @app.post("/upload")
 async def create_upload_file(request: Request, files: List[UploadFile] = File(...)):
     # Delete all image files in the 'images' folder
@@ -283,7 +236,6 @@ async def create_upload_file(request: Request, files: List[UploadFile] = File(..
 
     # return JSONResponse(content={"files_uploaded": [file.filename for file in files]})
     context = {"request": request, "message": "Files uploaded successfully"}
-    print(111)
     return templates.TemplateResponse("gallery_main.html", context)
 
 @app.get("/gallery/", response_class=HTMLResponse)
