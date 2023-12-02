@@ -14,8 +14,9 @@ from sqlalchemy.ext.declarative import declarative_base
 from dotenv import load_dotenv
 import os
 
-# Load environment variables from .env file
-load_dotenv()
+from database import metadata, engine, SessionLocal
+from models import images, animal, human, nature, food, place, etc
+
 
 from transformers import CLIPProcessor, CLIPModel
 
@@ -24,30 +25,6 @@ processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
 
 app = FastAPI()
 
-# -------------- DATEBASE --------------
-DATABASE_URL = os.getenv("DATABASE_URL")
-engine = create_engine(DATABASE_URL)
-metadata = MetaData()
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = declarative_base()
-
-def create_table(metadata, table_name):
-    return Table(
-        table_name, metadata,
-        Column('id', Integer, primary_key=True),
-        Column('filename', String(255), nullable=False),
-        extend_existing=True  # Allow redefinition
-    )
-
-images = create_table(metadata, 'images')
-animal = create_table(metadata, 'animal')
-etc = create_table(metadata, 'etc')
-food = create_table(metadata, 'food')
-human = create_table(metadata, 'human')
-nature = create_table(metadata, 'nature')
-place = create_table(metadata, 'place')
-
-metadata.create_all(engine)
 
 # ----------------------------------------
 
