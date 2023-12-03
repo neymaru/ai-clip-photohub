@@ -52,6 +52,22 @@ def get_detail_filenames(category):
         return file_names
     finally:
         db.close()
+
+def get_korean_catogory(category):
+    if category == 'human':
+        category = '사람'
+    elif category == 'animal':
+        category = '동물'
+    elif category == 'food':
+        category = '음식'
+    elif category == 'nature':
+        category = '자연'
+    elif category == 'place':
+        category = '장소'
+    elif category == 'etc':
+        category = '기타'
+    return category
+
         
 def get_all_images():
     if os.path.exists(images_folder) and os.path.isdir(images_folder):
@@ -171,6 +187,7 @@ def get_table_names():
         for table_name, table in metadata.tables.items()
         if table is not None and SessionLocal().execute(table.select().limit(1)).first() is not None
     ]
+    table_names.remove('images')
     return list(table_names)
 
 
@@ -230,22 +247,10 @@ async def read_all_images(request: Request):
 async def seperate_images(request: Request):
     seperate_category()
     table_names = get_table_names()
-    table_names.remove('images')
     return templates.TemplateResponse("gallery_seperate.html", {"request": request, "table_names": table_names})
 
 @app.get("/gallery/detail", response_class=HTMLResponse)
 async def read_detail_images(request: Request, category: str = None):
     images = get_detail_filenames(category)
-    if category == 'human':
-        category = '사람'
-    elif category == 'animal':
-        category = '동물'
-    elif category == 'food':
-        category = '음식'
-    elif category == 'nature':
-        category = '자연'
-    elif category == 'place':
-        category = '장소'
-    elif category == 'etc':
-        category = '기타'
+    category = get_korean_catogory(category)    
     return templates.TemplateResponse("gallery_detail.html", {"request": request, "images": images, "category": category})
