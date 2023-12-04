@@ -190,13 +190,7 @@ def get_table_names():
     table_names.remove('images')
     return list(table_names)
 
-
-@app.get("/", response_class=HTMLResponse)
-async def read_main(request: Request):
-    return templates.TemplateResponse("main.html", {"request": request})
-
-@app.post("/upload")
-async def create_upload_file(request: Request, files: List[UploadFile] = File(...)):
+async def handle_uploaded_files(files):
     # Delete all image files in the 'images' folder
     for filename in os.listdir(images_folder):
         file_path = os.path.join(images_folder, filename)
@@ -229,8 +223,18 @@ async def create_upload_file(request: Request, files: List[UploadFile] = File(..
             db.close()
 
     # return JSONResponse(content={"files_uploaded": [file.filename for file in files]})
-    context = {"request": request, "message": "Files uploaded successfully"}
-    return templates.TemplateResponse("gallery_main.html", context)
+    message = "Files uploaded successfully"
+    return message
+
+
+@app.get("/", response_class=HTMLResponse)
+async def read_main(request: Request):
+    return templates.TemplateResponse("main.html", {"request": request})
+
+@app.post("/upload", response_class=HTMLResponse)
+async def upload_files(request: Request, files: List[UploadFile] = File(...)):
+    message = await  handle_uploaded_files(files)
+    return templates.TemplateResponse("gallery_main.html", {"request": request, "message": message})
 
 @app.get("/gallery/", response_class=HTMLResponse)
 async def read_images(request: Request):
