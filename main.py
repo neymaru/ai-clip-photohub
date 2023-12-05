@@ -17,16 +17,12 @@ import os
 from database import metadata, engine, SessionLocal
 from models import images, animal, human, nature, food, place, etc
 
-
 from transformers import CLIPProcessor, CLIPModel
 
 model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
 processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
 
 app = FastAPI()
-
-
-# ----------------------------------------
 
 images_folder = "static/images/upload"
 if not os.path.exists(images_folder):
